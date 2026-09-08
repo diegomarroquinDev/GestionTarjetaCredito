@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.37012.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionTarjetaCredito.Domain", "GestionTarjetaCredito.Domain\GestionTarjetaCredito.Domain.csproj", "{3E867ED6-67D5-4936-BF6E-CF35DAEE0762}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionTarjetaCredito.Application", "GestionTarjetaCredito.Application\GestionTarjetaCredito.Application.csproj", "{3CB2B3D0-0A60-4127-9EDD-E27DB80A40AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3E867ED6-67D5-4936-BF6E-CF35DAEE0762}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E867ED6-67D5-4936-BF6E-CF35DAEE0762}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E867ED6-67D5-4936-BF6E-CF35DAEE0762}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CB2B3D0-0A60-4127-9EDD-E27DB80A40AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CB2B3D0-0A60-4127-9EDD-E27DB80A40AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CB2B3D0-0A60-4127-9EDD-E27DB80A40AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CB2B3D0-0A60-4127-9EDD-E27DB80A40AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
