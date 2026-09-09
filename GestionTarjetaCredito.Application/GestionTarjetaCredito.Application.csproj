@@ -21,7 +21,6 @@
     <Folder Include="Features\Configurations\" />
     <Folder Include="Features\Transactions\" />
     <Folder Include="Features\Payments\" />
-    <Folder Include="Features\Purchases\" />
     <Folder Include="Mappings\" />
   </ItemGroup>
 

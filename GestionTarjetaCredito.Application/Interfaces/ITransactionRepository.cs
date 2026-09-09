@@ -10,5 +10,9 @@ namespace GestionTarjetaCredito.Application.Interfaces
             int creditCardId,
             int year,
             int month);
+
+        Task<int> CreatePurchaseAsync(
+            Transaction transaction,
+            IUnitOfWork unitOfWork);
     }
 }
