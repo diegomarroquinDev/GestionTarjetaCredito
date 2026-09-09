@@ -1,4 +1,5 @@
-﻿using GestionTarjetaCredito.Application.DTOs;
+﻿using AutoMapper;
+using GestionTarjetaCredito.Application.DTOs;
 using GestionTarjetaCredito.Application.Interfaces;
 using MediatR;
 
@@ -12,10 +13,14 @@ namespace GestionTarjetaCredito.Application.Features.Configurations.Queries.GetF
         private readonly IFinancialConfigurationRepository
             _financialConfigurationRepository;
 
+        private readonly IMapper _mapper;
+
         public GetFinancialConfigurationsQueryHandler(
-            IFinancialConfigurationRepository financialConfigurationRepository)
+            IFinancialConfigurationRepository financialConfigurationRepository,
+            IMapper mapper)
         {
             _financialConfigurationRepository = financialConfigurationRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<FinancialConfigurationDto>> Handle(
@@ -25,17 +30,8 @@ namespace GestionTarjetaCredito.Application.Features.Configurations.Queries.GetF
             var configurations = await _financialConfigurationRepository
                 .GetAllAsync();
 
-            return configurations
-                .Select(x => new FinancialConfigurationDto
-                {
-                    Id = x.Id,
-                    Code = x.Code,
-                    Value = x.Value,
-                    Description = x.Description,
-                    CreatedDate = x.CreatedDate,
-                    UpdatedDate = x.UpdatedDate
-                })
-                .ToList();
+            return _mapper.Map<IEnumerable<FinancialConfigurationDto>>(
+                configurations);
         }
     }
 }
