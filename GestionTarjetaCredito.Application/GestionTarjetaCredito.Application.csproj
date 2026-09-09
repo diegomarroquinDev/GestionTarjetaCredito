@@ -17,4 +17,12 @@
     <ProjectReference Include="..\GestionTarjetaCredito.Domain\GestionTarjetaCredito.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Configurations\" />
+    <Folder Include="Features\Transactions\" />
+    <Folder Include="Features\Payments\" />
+    <Folder Include="Features\Purchases\" />
+    <Folder Include="Mappings\" />
+  </ItemGroup>
+
 </Project>

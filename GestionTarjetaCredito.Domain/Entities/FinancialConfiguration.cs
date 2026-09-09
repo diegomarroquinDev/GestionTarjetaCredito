@@ -1,6 +1,6 @@
 ﻿namespace GestionTarjetaCredito.Domain.Entities
 {
-    public class Configuration
+    public class FinancialConfiguration
     {
         public int Id { get; set; }
 
