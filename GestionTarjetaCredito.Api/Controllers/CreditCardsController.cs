@@ -1,6 +1,7 @@
 ﻿using GestionTarjetaCredito.Application.Features.CreditCards.Queries.GetCreditCardStatement;
 using GestionTarjetaCredito.Application.Features.Purchases.Commands.CreatePurchase;
 using GestionTarjetaCredito.Application.Features.Payments.Commands.CreatePayment;
+using GestionTarjetaCredito.Application.Features.Transactions.Queries.GetMonthlyTransactions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -72,6 +73,25 @@ namespace GestionTarjetaCredito.Api.Controllers
                 {
                     transactionId
                 });
+        }
+
+        [HttpGet("{id:int}/transactions")]
+        public async Task<IActionResult> GetMonthlyTransactions(
+            int id,
+            [FromQuery] int year,
+            [FromQuery] int month,
+            CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(
+                new GetMonthlyTransactionsQuery
+                {
+                    CreditCardId = id,
+                    Year = year,
+                    Month = month
+                },
+                cancellationToken);
+
+            return Ok(result);
         }
     }
 }
