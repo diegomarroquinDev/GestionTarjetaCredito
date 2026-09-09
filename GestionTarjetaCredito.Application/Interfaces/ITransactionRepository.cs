@@ -14,5 +14,9 @@ namespace GestionTarjetaCredito.Application.Interfaces
         Task<int> CreatePurchaseAsync(
             Transaction transaction,
             IUnitOfWork unitOfWork);
+
+        Task<int> CreatePaymentAsync(
+            Transaction transaction,
+            IUnitOfWork unitOfWork);
     }
 }

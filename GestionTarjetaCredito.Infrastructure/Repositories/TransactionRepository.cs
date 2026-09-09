@@ -85,6 +85,35 @@ namespace GestionTarjetaCredito.Infrastructure.Repositories
 
             return transactionId;
         }
+
+        public async Task<int> CreatePaymentAsync(
+            Transaction transaction,
+            IUnitOfWork unitOfWork)
+        {
+            if (unitOfWork is not UnitOfWork sqlUnitOfWork ||
+                sqlUnitOfWork.Connection is null ||
+                sqlUnitOfWork.Transaction is null)
+            {
+                throw new InvalidOperationException(
+                    "La transacción de base de datos no ha sido iniciada.");
+            }
+
+            var parameters = new
+            {
+                transaction.CreditCardId,
+                transaction.TransactionDate,
+                transaction.Amount
+            };
+
+            var transactionId = await sqlUnitOfWork.Connection
+                .QuerySingleAsync<int>(
+                    "sp_Transaction_CreatePayment",
+                    parameters,
+                    transaction: sqlUnitOfWork.Transaction,
+                    commandType: CommandType.StoredProcedure);
+
+            return transactionId;
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿using GestionTarjetaCredito.Application.Features.CreditCards.Queries.GetCreditCardStatement;
 using GestionTarjetaCredito.Application.Features.Purchases.Commands.CreatePurchase;
+using GestionTarjetaCredito.Application.Features.Payments.Commands.CreatePayment;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +36,27 @@ namespace GestionTarjetaCredito.Api.Controllers
         public async Task<IActionResult> CreatePurchase(
             int id,
             [FromBody] CreatePurchaseCommand command,
+            CancellationToken cancellationToken)
+        {
+            command.CreditCardId = id;
+
+            var transactionId = await _mediator.Send(
+                command,
+                cancellationToken);
+
+            return CreatedAtAction(
+                nameof(GetStatement),
+                new { id },
+                new
+                {
+                    transactionId
+                });
+        }
+
+        [HttpPost("{id:int}/payments")]
+        public async Task<IActionResult> CreatePayment(
+            int id,
+            [FromBody] CreatePaymentCommand command,
             CancellationToken cancellationToken)
         {
             command.CreditCardId = id;
