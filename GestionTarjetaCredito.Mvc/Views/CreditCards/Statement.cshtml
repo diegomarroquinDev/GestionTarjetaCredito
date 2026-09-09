@@ -1,0 +1,121 @@
+﻿@{
+    ViewData["Title"] = "Estado de cuenta";
+}
+
+<div class="statement-page container py-4">
+    <div class="statement-header mb-4">
+        <h1 class="statement-title">Estado de cuenta</h1>
+        <p class="statement-subtitle">
+            Consulta el resumen financiero de tu tarjeta de crédito.
+        </p>
+    </div>
+
+    <!-- TARJETA VISUAL -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="credit-card-atlantida">
+
+                <div class="credit-card-background-circle circle-1"></div>
+                <div class="credit-card-background-circle circle-2"></div>
+
+                <div class="credit-card-header">
+                    <div>
+                        <div class="credit-card-bank">Banco Atlántida</div>
+                        <div class="credit-card-type">Tarjeta de crédito</div>
+                    </div>
+
+                    <div class="credit-card-brand">VISA</div>
+                </div>
+
+                <div class="credit-card-chip"></div>
+
+                <div class="credit-card-number">
+                    @Model.CardNumber
+                </div>
+
+                <div class="credit-card-footer">
+                    <div class="credit-card-holder-section">
+                        <div class="credit-card-label">Titular</div>
+                        <div class="credit-card-holder-name">@Model.CardHolderName</div>
+                    </div>
+
+                    <div class="credit-card-limit-section">
+                        <div class="credit-card-label">Límite de crédito</div>
+                        <div class="credit-card-limit-value">@Model.CreditLimit.ToString("C")</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INDICADORES PRINCIPALES -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="summary-card">
+                <div class="summary-label">Saldo utilizado</div>
+                <div class="summary-value">@Model.UsedBalance.ToString("C")</div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="summary-card">
+                <div class="summary-label">Crédito disponible</div>
+                <div class="summary-value">@Model.AvailableBalance.ToString("C")</div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="summary-card">
+                <div class="summary-label">Compras del mes</div>
+                <div class="summary-value">@Model.CurrentMonthPurchases.ToString("C")</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETALLES -->
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="detail-card h-100">
+                <h3 class="detail-title">Resumen de pagos</h3>
+                <div class="detail-divider"></div>
+
+                <div class="detail-row">
+                    <span>Cuota mínima (@Model.MinimumPaymentPercentage.ToString("N4")%)</span>
+                    <strong>@Model.MinimumPayment.ToString("C")</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Pago total</span>
+                    <strong>@Model.TotalPayment.ToString("C")</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Pago con intereses</span>
+                    <strong>@Model.CashPaymentWithInterest.ToString("C")</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="detail-card h-100">
+                <h3 class="detail-title">Información del período</h3>
+                <div class="detail-divider"></div>
+
+                <div class="detail-row">
+                    <span>Compras mes actual</span>
+                    <strong>@Model.CurrentMonthPurchases.ToString("C")</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Compras mes anterior</span>
+                    <strong>@Model.PreviousMonthPurchases.ToString("C")</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Interés bonificable (@Model.InterestPercentage.ToString("N4")%)</span>
+                    <strong>@Model.BonusInterest.ToString("C")</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

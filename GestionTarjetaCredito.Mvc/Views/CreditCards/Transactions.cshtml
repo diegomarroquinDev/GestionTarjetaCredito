@@ -1,0 +1,153 @@
+﻿@model IEnumerable<GestionTarjetaCredito.Mvc.Models.TransactionViewModel>
+
+@{
+    ViewData["Title"] = "Movimientos";
+}
+
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h2 class="page-title">Movimientos</h2>
+
+        <p class="page-subtitle">
+            Consulta las compras y pagos realizados en la tarjeta.
+        </p>
+    </div>
+
+    <div class="card financial-panel mb-4">
+        <div class="card-body">
+
+            <form method="get"
+                  asp-controller="CreditCards"
+                  asp-action="Transactions">
+
+                <input type="hidden"
+                       name="id"
+                       value="@ViewBag.CreditCardId" />
+
+                <div class="row g-3 align-items-end">
+
+                    <div class="col-md-4">
+                        <label class="form-label">Año</label>
+
+                        <input type="number"
+                               name="year"
+                               value="@ViewBag.Year"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Mes</label>
+
+                        <select name="month"
+                                class="form-select">
+
+                            @for (var month = 1; month <= 12; month++)
+                            {
+                                if (month == (int)ViewBag.Month)
+                                {
+                                    <option value="@month" selected>
+                                        @month
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@month">
+                                        @month
+                                    </option>
+                                }
+                            }
+
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <button type="submit"
+                                class="btn btn-atlantida w-100">
+                            Consultar
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <div class="card financial-panel">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th class="text-end">Monto</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="4"
+                                    class="text-center text-muted py-4">
+
+                                    No existen movimientos para el período seleccionado.
+
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var transaction in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @transaction.TransactionDate.ToString("dd/MM/yyyy HH:mm")
+                                    </td>
+
+                                    <td>
+                                        @if (transaction.TransactionType == "Purchase")
+                                        {
+                                            <span class="badge bg-danger">
+                                                Compra
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">
+                                                Pago
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @transaction.Description
+                                    </td>
+
+                                    <td class="text-end fw-bold">
+                                        @transaction.Amount.ToString("C2")
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
