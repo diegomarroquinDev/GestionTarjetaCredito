@@ -4,6 +4,8 @@ using GestionTarjetaCredito.Application.Features.Payments.Commands.CreatePayment
 using GestionTarjetaCredito.Application.Features.Transactions.Queries.GetMonthlyTransactions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using GestionTarjetaCredito.Api.Models.Responses;
+using GestionTarjetaCredito.Application.DTOs;
 
 namespace GestionTarjetaCredito.Api.Controllers
 {
@@ -19,6 +21,10 @@ namespace GestionTarjetaCredito.Api.Controllers
         }
 
         [HttpGet("{id:int}/statement")]
+        [ProducesResponseType(typeof(CreditCardStatementDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetStatement(
             int id,
             CancellationToken cancellationToken)
@@ -34,6 +40,10 @@ namespace GestionTarjetaCredito.Api.Controllers
         }
 
         [HttpPost("{id:int}/purchases")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreatePurchase(
             int id,
             [FromBody] CreatePurchaseCommand command,
@@ -55,6 +65,10 @@ namespace GestionTarjetaCredito.Api.Controllers
         }
 
         [HttpPost("{id:int}/payments")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreatePayment(
             int id,
             [FromBody] CreatePaymentCommand command,
@@ -76,6 +90,10 @@ namespace GestionTarjetaCredito.Api.Controllers
         }
 
         [HttpGet("{id:int}/transactions")]
+        [ProducesResponseType(typeof(IEnumerable<TransactionDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetMonthlyTransactions(
             int id,
             [FromQuery] int year,
