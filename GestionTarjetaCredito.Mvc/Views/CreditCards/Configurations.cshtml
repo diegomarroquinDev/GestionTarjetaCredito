@@ -4,21 +4,25 @@
     ViewData["Title"] = "Configuración financiera";
 }
 
-<div class="container py-4">
+<div class="container py-4 purchase-page">
 
     <div class="mb-4">
-        <h2 class="page-title">Configuración financiera</h2>
+        <span class="purchase-eyebrow">
+            Administración
+        </span>
 
-        <p class="page-subtitle">
+        <h2 class="purchase-title">
+            Configuración financiera
+        </h2>
+
+        <p class="purchase-subtitle">
             Administra los parámetros utilizados para los cálculos de la tarjeta.
         </p>
     </div>
 
     @if (TempData["SuccessMessage"] is not null)
     {
-        <div class="alert alert-success alert-dismissible fade show"
-             role="alert">
-
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
             @TempData["SuccessMessage"]
 
             <button type="button"
@@ -31,9 +35,7 @@
 
     @if (TempData["ErrorMessage"] is not null)
     {
-        <div class="alert alert-danger alert-dismissible fade show"
-             role="alert">
-
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
             @TempData["ErrorMessage"]
 
             <button type="button"
@@ -44,115 +46,196 @@
         </div>
     }
 
-    <div class="card financial-panel">
+    <div class="configuration-card">
 
-        <div class="card-body p-4">
+        <div class="configuration-card-header">
 
-            <div class="table-responsive">
+            <div>
+                <h5 class="mb-1">
+                    Parámetros financieros
+                </h5>
 
-                <table class="table align-middle">
+                <p class="mb-0">
+                    Modifica los valores utilizados para los cálculos del estado de cuenta.
+                </p>
+            </div>
 
-                    <thead>
-                        <tr>
-                            <th>Configuración</th>
-                            <th>Descripción</th>
-                            <th style="width: 220px;">
-                                Valor
-                            </th>
-                            <th style="width: 150px;">
-                                Acción
-                            </th>
-                        </tr>
-                    </thead>
+            <div class="configuration-header-icon">
 
-                    <tbody>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="21"
+                     height="21"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
 
-                        @foreach (var configuration in Model)
-                        {
-                            <tr>
+                    <circle cx="12" cy="12" r="3"></circle>
 
-                                <td>
-                                    <strong>
-                                        @configuration.Code
-                                    </strong>
-                                </td>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.65 1.65 0 0 0 15 19.4a1.65 1.65 0 0 0-1 .6 1.65 1.65 0 0 0-.4 1.08V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 8.6 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-.6-1 1.65 1.65 0 0 0-1.08-.4H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 8.6a1.65 1.65 0 0 0-.33-1.82l-.06-.06A2 2 0 1 1 7.04 3.9l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-.6A1.65 1.65 0 0 0 10.4 3V3a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 15.4 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.14.37.35.7.6 1 .28.29.65.46 1.06.49H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51.51z">
+                    </path>
 
-                                <td>
-                                    @configuration.Description
-                                </td>
-
-                                <td>
-
-                                    <form asp-action="UpdateConfiguration"
-                                          method="post"
-                                          class="d-flex gap-2 align-items-center">
-
-                                        @Html.AntiForgeryToken()
-
-                                        <input type="hidden"
-                                               name="Id"
-                                               value="@configuration.Id" />
-
-                                        <input type="hidden"
-                                               name="Code"
-                                               value="@configuration.Code" />
-
-                                        <input type="hidden"
-                                               name="Description"
-                                               value="@configuration.Description" />
-
-                                        <div class="input-group">
-
-                                            <input type="number"
-                                                   name="Value"
-                                                   value="@configuration.Value"
-                                                   step="0.01"
-                                                   min="0"
-                                                   max="100"
-                                                   class="form-control" />
-
-                                            <span class="input-group-text">
-                                                %
-                                            </span>
-
-                                        </div>
-
-                                        <button type="submit"
-                                                class="btn btn-atlantida">
-                                            Guardar
-                                        </button>
-
-                                    </form>
-
-                                </td>
-
-                                <td>
-                                    @if (configuration.UpdatedDate.HasValue)
-                                    {
-                                        <small class="text-muted">
-                                            @configuration.UpdatedDate.Value
-                                            .ToString("dd/MM/yyyy HH:mm")
-                                        </small>
-                                    }
-                                    else
-                                    {
-                                        <small class="text-muted">
-                                            Sin cambios
-                                        </small>
-                                    }
-                                </td>
-
-                            </tr>
-                        }
-
-                    </tbody>
-
-                </table>
+                </svg>
 
             </div>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table configuration-table mb-0">
+
+                <thead>
+                    <tr>
+                        <th class="ps-4">
+                            Parámetro
+                        </th>
+
+                        <th>
+                            Descripción
+                        </th>
+
+                        <th>
+                            Valor
+                        </th>
+
+                        <th>
+                            Última actualización
+                        </th>
+
+                        <th class="text-end pe-4">
+                            Acción
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var configuration in Model)
+                    {
+                        <tr>
+
+                            <td class="ps-4">
+
+                                <div class="configuration-code">
+                                    @configuration.DisplayName
+                                </div>
+
+                            </td>
+
+                            <td class="configuration-description">
+                                @configuration.Description
+                            </td>
+
+                            <td>
+
+                                <form asp-action="UpdateConfiguration"
+                                      method="post"
+                                      class="configuration-form">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <input type="hidden"
+                                           name="Id"
+                                           value="@configuration.Id" />
+
+                                    <input type="hidden"
+                                           name="Code"
+                                           value="@configuration.Code" />
+
+                                    <input type="hidden"
+                                           name="Description"
+                                           value="@configuration.Description" />
+
+                                    <div class="configuration-value-wrapper">
+
+                                        <input type="number"
+                                               name="Value"
+                                               value="@configuration.Value.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)"
+                                               step="0.01"
+                                               min="0"
+                                               max="100"
+                                               class="form-control configuration-value-input" />
+
+                                        <span class="configuration-percent">
+                                            %
+                                        </span>
+
+                                    </div>
+
+                                </form>
+
+                            </td>
+
+                            <td>
+
+                                @if (configuration.UpdatedDate.HasValue)
+                                {
+                                    <div class="configuration-updated">
+
+                                        <span class="configuration-status-dot"></span>
+
+                                        <div>
+                                            <strong>
+                                                @(configuration.UpdatedDate.Value.ToString("dd/MM/yyyy"))
+                                            </strong>
+
+                                            <span>
+                                                @(configuration.UpdatedDate.Value.ToString("HH:mm"))
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="configuration-not-updated">
+                                        Sin cambios
+                                    </span>
+                                }
+
+                            </td>
+
+                            <td class="text-end pe-4">
+
+                                <button type="submit"
+                                        form="@($"configuration-form-{configuration.Id}")"
+                                        class="btn-configuration-save"
+                                        onclick="submitConfiguration(@configuration.Id)">
+                                    Guardar
+                                </button>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
 
         </div>
 
     </div>
 
 </div>
+
+@section Scripts {
+
+    <script>
+        function submitConfiguration(id) {
+            const forms = document.querySelectorAll('.configuration-form');
+
+            forms.forEach(form => {
+                const input = form.querySelector('input[name="Id"]');
+
+                if (input && parseInt(input.value) === id) {
+                    form.submit();
+                }
+            });
+        }
+    </script>
+
+}

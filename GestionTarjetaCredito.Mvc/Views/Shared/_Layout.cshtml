@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>@ViewData["Title"] - Banco Atlántida</title>
+    <title>@ViewData["Title"] - Tarjeta Credito</title>
 
     <link rel="stylesheet"
           href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -16,37 +16,38 @@
 
 <body>
 
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm atlantida-navbar mb-4">
-            <div class="container">
+    <header class="top-navbar">
+        <div class="container-fluid px-4">
 
-                <a class="navbar-brand atlantida-brand"
+            <nav class="navbar navbar-expand-lg navbar-light">
+
+                <a class="navbar-brand brand-atlantida"
                    asp-controller="CreditCards"
                    asp-action="Statement"
                    asp-route-id="1">
 
-                    <span class="atlantida-brand-mark">▲</span>
-                    Banco Atlántida
-
+                    <span class="brand-symbol">▲</span>
+                    <span class="brand-text">B. Atl</span>
                 </a>
 
                 <button class="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target=".navbar-collapse"
-                        aria-controls="navbarSupportedContent"
+                        data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar"
                         aria-expanded="false"
-                        aria-label="Toggle navigation">
+                        aria-label="Mostrar navegación">
 
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                <div class="collapse navbar-collapse"
+                     id="mainNavbar">
 
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
 
                         <li class="nav-item">
-                            <a class="nav-link"
+                            <a class="nav-link modern-nav-link"
                                asp-controller="CreditCards"
                                asp-action="Statement"
                                asp-route-id="1">
@@ -55,7 +56,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link"
+                            <a class="nav-link modern-nav-link"
                                asp-controller="CreditCards"
                                asp-action="CreatePurchase"
                                asp-route-id="1">
@@ -64,7 +65,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link"
+                            <a class="nav-link modern-nav-link"
                                asp-controller="CreditCards"
                                asp-action="CreatePayment"
                                asp-route-id="1">
@@ -73,7 +74,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link"
+                            <a class="nav-link modern-nav-link"
                                asp-controller="CreditCards"
                                asp-action="Transactions"
                                asp-route-id="1">
@@ -82,7 +83,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link"
+                            <a class="nav-link modern-nav-link"
                                asp-controller="CreditCards"
                                asp-action="Configurations">
                                 Configuración
@@ -92,8 +93,10 @@
                     </ul>
 
                 </div>
-            </div>
-        </nav>
+
+            </nav>
+
+        </div>
     </header>
 
     <div class="container">

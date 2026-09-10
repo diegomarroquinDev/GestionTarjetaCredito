@@ -2,24 +2,134 @@
 
 @{
     ViewData["Title"] = "Movimientos";
+
+    var selectedMonth = Convert.ToInt32(ViewBag.Month);
+    var culture = new System.Globalization.CultureInfo("es-SV");
 }
 
-<div class="container py-4">
+<div class="container py-4 purchase-page">
 
-    <div class="mb-4">
-        <h2 class="page-title">Movimientos</h2>
+    <div class="d-flex flex-column flex-lg-row
+                justify-content-between
+                align-items-lg-end
+                gap-3
+                mb-4">
 
-        <p class="page-subtitle">
-            Consulta las compras y pagos realizados en la tarjeta.
-        </p>
+        <div>
+            <span class="purchase-eyebrow">
+                Consultas
+            </span>
+
+            <h2 class="purchase-title">
+                Movimientos
+            </h2>
+
+            <p class="purchase-subtitle">
+                Consulta las compras y pagos realizados durante un período determinado.
+            </p>
+        </div>
+
+        <div class="export-actions">
+
+            <a asp-controller="CreditCards"
+               asp-action="ExportTransactionsExcel"
+               asp-route-id="@ViewBag.CreditCardId"
+               asp-route-year="@ViewBag.Year"
+               asp-route-month="@ViewBag.Month"
+               class="btn-excel-modern">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="19"
+                     height="19"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <path d="M8 13l4 4" />
+                    <path d="M12 13l-4 4" />
+
+                </svg>
+
+                Exportar a Excel
+
+            </a>
+
+            <a asp-controller="CreditCards"
+               asp-action="ExportStatementPdf"
+               asp-route-id="@ViewBag.CreditCardId"
+               asp-route-year="@ViewBag.Year"
+               asp-route-month="@ViewBag.Month"
+               class="btn-pdf-modern">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="19"
+                     height="19"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="8" y1="13" x2="16" y2="13" />
+                    <line x1="8" y1="17" x2="16" y2="17" />
+
+                </svg>
+
+                Estado de cuenta PDF
+
+            </a>
+
+        </div>
+
     </div>
 
-    <div class="card financial-panel mb-4">
-        <div class="card-body">
+    <div class="movement-filter-card mb-4">
 
-            <form method="get"
-                  asp-controller="CreditCards"
-                  asp-action="Transactions">
+        <div class="movement-filter-header">
+
+            <div>
+                <h5 class="mb-1">
+                    Filtrar movimientos
+                </h5>
+
+                <p class="mb-0">
+                    Selecciona el año y mes que deseas consultar.
+                </p>
+            </div>
+
+            <div class="movement-filter-icon">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="20"
+                     height="20"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3">
+                    </polygon>
+
+                </svg>
+
+            </div>
+
+        </div>
+
+        <div class="movement-filter-body">
+
+            <form asp-action="Transactions"
+                  method="get">
 
                 <input type="hidden"
                        name="id"
@@ -28,44 +138,76 @@
                 <div class="row g-3 align-items-end">
 
                     <div class="col-md-4">
-                        <label class="form-label">Año</label>
+
+                        <label class="form-label purchase-label">
+                            Año
+                        </label>
 
                         <input type="number"
                                name="year"
                                value="@ViewBag.Year"
-                               class="form-control" />
+                               min="2000"
+                               max="2100"
+                               class="form-control movement-control" />
+
                     </div>
 
                     <div class="col-md-4">
-                        <label class="form-label">Mes</label>
+
+                        <label class="form-label purchase-label">
+                            Mes
+                        </label>
 
                         <select name="month"
-                                class="form-select">
+                                class="form-select movement-control">
 
                             @for (var month = 1; month <= 12; month++)
                             {
-                                if (month == (int)ViewBag.Month)
+                                var monthName =
+                                new DateTime(2026, month, 1)
+                                .ToString("MMMM", culture);
+
+                                if (month == selectedMonth)
                                 {
                                     <option value="@month" selected>
-                                        @month
+                                        @monthName
                                     </option>
                                 }
                                 else
                                 {
                                     <option value="@month">
-                                        @month
+                                        @monthName
                                     </option>
                                 }
                             }
 
                         </select>
+
                     </div>
 
                     <div class="col-md-4">
+
                         <button type="submit"
-                                class="btn btn-atlantida w-100">
+                                class="btn-filter-movements">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="17"
+                                 height="17"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round">
+
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+
+                            </svg>
+
                             Consultar
                         </button>
+
                     </div>
 
                 </div>
@@ -73,78 +215,164 @@
             </form>
 
         </div>
+
     </div>
 
-    <div class="card financial-panel">
+    <div class="movement-table-card">
 
-        <div class="card-body">
+        <div class="movement-table-header">
 
-            <div class="table-responsive">
+            <div>
+                <h5 class="mb-1">
+                    Detalle de movimientos
+                </h5>
 
-                <table class="table align-middle">
+                <p class="mb-0">
+                    Período seleccionado:
+                    <strong>
+                        @culture.DateTimeFormat.GetMonthName(selectedMonth)
+                        @ViewBag.Year
+                    </strong>
+                </p>
+            </div>
 
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Tipo</th>
-                            <th>Descripción</th>
-                            <th class="text-end">Monto</th>
-                        </tr>
-                    </thead>
+            <div class="movement-count">
+                @Model.Count() movimientos
+            </div>
 
-                    <tbody>
+        </div>
 
-                        @if (!Model.Any())
+        <div class="table-responsive">
+
+            <table class="table movement-table mb-0">
+
+                <thead>
+
+                    <tr>
+                        <th class="ps-4">
+                            Fecha
+                        </th>
+
+                        <th>
+                            Tipo
+                        </th>
+
+                        <th>
+                            Descripción
+                        </th>
+
+                        <th class="text-end pe-4">
+                            Monto
+                        </th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model.Any())
+                    {
+                        foreach (var transaction in Model)
                         {
                             <tr>
-                                <td colspan="4"
-                                    class="text-center text-muted py-4">
 
-                                    No existen movimientos para el período seleccionado.
+                                <td class="ps-4 movement-date">
+
+                                    @(transaction.TransactionDate
+                                                                .ToString("dd/MM/yyyy HH:mm"))
+
+                        </td>
+
+                                <td>
+
+                            @if (transaction.TransactionType == "Purchase")
+                                    {
+                                        <span class="movement-badge movement-purchase">
+
+                                            <span class="movement-badge-dot"></span>
+
+                                            Compra
+
+                                        </span>
+                                    }
+                                    else if (transaction.TransactionType == "Payment")
+                                    {
+                                        <span class="movement-badge movement-payment">
+
+                                            <span class="movement-badge-dot"></span>
+
+                                            Pago
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="movement-badge movement-other">
+                                            @transaction.TransactionType
+                                        </span>
+                                    }
 
                                 </td>
+
+                                <td class="movement-description">
+                                    @transaction.Description
+                                </td>
+
+                                <td class="text-end pe-4 movement-amount">
+
+                                    @(transaction.Amount.ToString("C2"))
+
+                                </td>
+
                             </tr>
                         }
-                        else
-                        {
-                            foreach (var transaction in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @transaction.TransactionDate.ToString("dd/MM/yyyy HH:mm")
-                                    </td>
+                    }
+                    else
+                    {
+                        <tr>
 
-                                    <td>
-                                        @if (transaction.TransactionType == "Purchase")
-                                        {
-                                            <span class="badge bg-danger">
-                                                Compra
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-success">
-                                                Pago
-                                            </span>
-                                        }
-                                    </td>
+                            <td colspan="4"
+                                class="text-center py-5">
 
-                                    <td>
-                                        @transaction.Description
-                                    </td>
+                                <div class="movement-empty">
 
-                                    <td class="text-end fw-bold">
-                                        @transaction.Amount.ToString("C2")
-                                    </td>
-                                </tr>
-                            }
-                        }
+                                    <div class="movement-empty-icon">
 
-                    </tbody>
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             width="28"
+                                             height="28"
+                                             viewBox="0 0 24 24"
+                                             fill="none"
+                                             stroke="currentColor"
+                                             stroke-width="2"
+                                             stroke-linecap="round"
+                                             stroke-linejoin="round">
 
-                </table>
+                                            <path d="M3 3v18h18"></path>
+                                            <path d="M7 16l4-4 4 3 5-6"></path>
 
-            </div>
+                                        </svg>
+
+                                    </div>
+
+                                    <strong>
+                                        No hay movimientos
+                                    </strong>
+
+                                    <span>
+                                        No existen transacciones para el período seleccionado.
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
 
         </div>
 

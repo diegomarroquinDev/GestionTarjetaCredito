@@ -48,9 +48,10 @@ namespace GestionTarjetaCredito.Mvc.Services
 
             if (!response.IsSuccessStatusCode)
             {
-                var error = await response.Content.ReadAsStringAsync();
+                var errorMessage =
+                    await GetApiErrorMessageAsync(response);
 
-                throw new InvalidOperationException(error);
+                throw new InvalidOperationException(errorMessage);
             }
 
             return await response.Content
@@ -72,9 +73,10 @@ namespace GestionTarjetaCredito.Mvc.Services
 
             if (!response.IsSuccessStatusCode)
             {
-                var error = await response.Content.ReadAsStringAsync();
+                var errorMessage =
+                    await GetApiErrorMessageAsync(response);
 
-                throw new InvalidOperationException(error);
+                throw new InvalidOperationException(errorMessage);
             }
 
             return await response.Content
@@ -107,10 +109,34 @@ namespace GestionTarjetaCredito.Mvc.Services
 
             if (!response.IsSuccessStatusCode)
             {
-                var error = await response.Content.ReadAsStringAsync();
+                var errorMessage =
+                    await GetApiErrorMessageAsync(response);
 
-                throw new InvalidOperationException(error);
+                throw new InvalidOperationException(errorMessage);
             }
+        }
+
+        private static async Task<string> GetApiErrorMessageAsync(
+        HttpResponseMessage response)
+        {
+            try
+            {
+                var errorResponse =
+                    await response.Content.ReadFromJsonAsync<ApiErrorResponseViewModel>();
+
+                if (errorResponse is not null &&
+                    !string.IsNullOrWhiteSpace(errorResponse.Message))
+                {
+                    return errorResponse.Message;
+                }
+            }
+            catch
+            {
+                // Si la respuesta no tiene el formato esperado,
+                // se devuelve un mensaje genérico.
+            }
+
+            return "Ocurrió un error al procesar la solicitud.";
         }
     }
 }

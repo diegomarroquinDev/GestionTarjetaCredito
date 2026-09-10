@@ -8,11 +8,6 @@ namespace GestionTarjetaCredito.Mvc.Models
 
         public string Code { get; set; } = string.Empty;
 
-        [Display(Name = "Valor")]
-        [Range(
-            0,
-            100,
-            ErrorMessage = "El valor debe estar entre 0 y 100.")]
         public decimal Value { get; set; }
 
         public string Description { get; set; } = string.Empty;
@@ -20,5 +15,18 @@ namespace GestionTarjetaCredito.Mvc.Models
         public DateTime CreatedDate { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
+
+        public string DisplayName
+        {
+            get
+            {
+                return Code switch
+                {
+                    "INTEREST_PERCENTAGE" => "Porcentaje de interés",
+                    "MIN_PAYMENT_PERCENTAGE" => "Porcentaje de pago mínimo",
+                    _ => Code
+                };
+            }
+        }
     }
 }

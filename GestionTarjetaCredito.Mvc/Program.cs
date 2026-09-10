@@ -1,4 +1,5 @@
 using GestionTarjetaCredito.Mvc.Services;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ builder.Services.AddHttpClient<CreditCardApiService>(client =>
     client.BaseAddress = new Uri(apiBaseUrl);
 });
 
+QuestPDF.Settings.License = LicenseType.Community;
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -34,6 +37,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=CreditCards}/{action=Statement}/{id?}");
 
 app.Run();
