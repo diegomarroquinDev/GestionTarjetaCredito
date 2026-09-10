@@ -31,5 +31,86 @@ namespace GestionTarjetaCredito.Mvc.Services
 
             return transactions ?? Enumerable.Empty<TransactionViewModel>();
         }
+
+        public async Task<CreateTransactionResponseViewModel?> CreatePurchaseAsync(
+            CreatePurchaseViewModel model)
+        {
+            var request = new
+            {
+                transactionDate = model.TransactionDate,
+                description = model.Description,
+                amount = model.Amount
+            };
+
+            var response = await _httpClient.PostAsJsonAsync(
+                $"api/credit-cards/{model.CreditCardId}/purchases",
+                request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+
+                throw new InvalidOperationException(error);
+            }
+
+            return await response.Content
+                .ReadFromJsonAsync<CreateTransactionResponseViewModel>();
+        }
+
+        public async Task<CreateTransactionResponseViewModel?> CreatePaymentAsync(
+        CreatePaymentViewModel model)
+        {
+            var request = new
+            {
+                transactionDate = model.TransactionDate,
+                amount = model.Amount
+            };
+
+            var response = await _httpClient.PostAsJsonAsync(
+                $"api/credit-cards/{model.CreditCardId}/payments",
+                request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+
+                throw new InvalidOperationException(error);
+            }
+
+            return await response.Content
+                .ReadFromJsonAsync<CreateTransactionResponseViewModel>();
+        }
+
+        public async Task<IEnumerable<FinancialConfigurationViewModel>>
+            GetFinancialConfigurationsAsync()
+        {
+            var configurations =
+                await _httpClient.GetFromJsonAsync<
+                    IEnumerable<FinancialConfigurationViewModel>>(
+                        "api/configurations");
+
+            return configurations ??
+                   Enumerable.Empty<FinancialConfigurationViewModel>();
+        }
+
+        public async Task UpdateFinancialConfigurationAsync(
+            FinancialConfigurationViewModel model)
+        {
+            var request = new
+            {
+                value = model.Value
+            };
+
+            var response = await _httpClient.PutAsJsonAsync(
+                $"api/configurations/{model.Id}",
+                request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+
+                throw new InvalidOperationException(error);
+            }
+        }
     }
 }

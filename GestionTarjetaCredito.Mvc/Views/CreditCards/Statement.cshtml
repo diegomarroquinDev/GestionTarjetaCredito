@@ -2,6 +2,7 @@
     ViewData["Title"] = "Estado de cuenta";
 }
 
+
 <div class="statement-page container py-4">
     <div class="statement-header mb-4">
         <h1 class="statement-title">Estado de cuenta</h1>
@@ -9,6 +10,22 @@
             Consulta el resumen financiero de tu tarjeta de crédito.
         </p>
     </div>
+
+    @if (TempData["SuccessMessage"] is not null)
+    {
+        <div class="alert alert-success alert-dismissible fade show"
+             role="alert">
+
+            @TempData["SuccessMessage"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Cerrar">
+            </button>
+
+        </div>
+    }
 
     <!-- TARJETA VISUAL -->
     <div class="row mb-4">

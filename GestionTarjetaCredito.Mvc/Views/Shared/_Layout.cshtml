@@ -55,13 +55,19 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link"
+                               asp-controller="CreditCards"
+                               asp-action="CreatePurchase"
+                               asp-route-id="1">
                                 Compras
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link"
+                               asp-controller="CreditCards"
+                               asp-action="CreatePayment"
+                               asp-route-id="1">
                                 Pagos
                             </a>
                         </li>
@@ -76,7 +82,9 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link"
+                               asp-controller="CreditCards"
+                               asp-action="Configurations">
                                 Configuración
                             </a>
                         </li>
